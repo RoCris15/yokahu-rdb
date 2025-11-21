@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Yunque & Yokahú Tower Performance</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            color: #2d5016;
+            background: #f5f9f3;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c2c 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: normal;
+            letter-spacing: 1px;
+        }
+
+        nav {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        nav a:hover {
+            color: #b8d4a8;
+        }
+
+        /* Sections */
+        section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        section:nth-child(even) {
+            background: white;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: #2d5016;
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: #6b9d3e;
+        }
+
+        /* 1. Video Section */
+        .video-container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            aspect-ratio: 16/9;
+            background: #e8f1e1;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(45,80,22,0.15);
+        }
+
+        .video-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #6b9d3e;
+        }
+
+        /* 2. Comments Section */
+        .comments-section {
+            background: #f5f9f3;
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .comment-input {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .comment-input input {
+            padding: 0.75rem;
+            border: 2px solid #b8d4a8;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .comment-input textarea {
+            padding: 1rem;
+            border: 2px solid #b8d4a8;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .comment-input button {
+            align-self: flex-end;
+            padding: 0.75rem 2rem;
+            background: #4a7c2c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        .comment-input button:hover {
+            background: #2d5016;
+        }
+
+        .comments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .comment {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .comment-author {
+            font-weight: bold;
+            color: #2d5016;
+        }
+
+        .comment-date {
+            font-size: 0.85rem;
+            color: #6b9d3e;
+        }
+
+        .comment-text {
+            margin: 1rem 0;
+            line-height: 1.6;
+        }
+
+        .comment-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .like-btn, .reply-btn {
+            background: none;
+            border: none;
+            color: #4a7c2c;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            transition: color 0.3s;
+        }
+
+        .like-btn:hover, .reply-btn:hover {
+            color: #2d5016;
+        }
+
+        .like-btn.liked {
+            color: #e74c3c;
+        }
+
+        .replies {
+            margin-top: 1rem;
+            margin-left: 2rem;
+            border-left: 3px solid #b8d4a8;
+            padding-left: 1rem;
+        }
+
+        .reply {
+            background: #f5f9f3;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 0.5rem;
+        }
+
+        .reply-input {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .reply-input input {
+            flex: 1;
+            padding: 0.5rem;
+            border: 2px solid #b8d4a8;
+            border-radius: 8px;
+            font-family: inherit;
+        }
+
+        .reply-input button {
+            padding: 0.5rem 1rem;
+            background: #4a7c2c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        /* 3. Information Section with Mixed Content */
+        .info-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .info-block {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            align-items: center;
+        }
+
+        .info-block:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .info-block img {
+            width: 400px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(45,80,22,0.2);
+        }
+
+        .info-text {
+            flex: 1;
+        }
+
+        .info-text h3 {
+            color: #2d5016;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-text ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-text li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            line-height: 1.6;
+            color: #4a7c2c;
+        }
+
+        .info-text li:before {
+            content: "🌿";
+            position: absolute;
+            left: 0;
+        }
+
+        /* 4. Slideshow Section */
+        .slideshow {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(45,80,22,0.15);
+        }
+
+        .slideshow img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            display: none;
+        }
+
+        .slideshow img.active {
+            display: block;
+        }
+
+        .slideshow-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(45,80,22,0.7);
+            color: white;
+            border: none;
+            padding: 1rem;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: background 0.3s;
+            z-index: 10;
+        }
+
+        .slideshow-btn:hover {
+            background: rgba(45,80,22,0.9);
+        }
+
+        .slideshow-btn.prev {
+            left: 0;
+        }
+
+        .slideshow-btn.next {
+            right: 0;
+        }
+
+        .slide-counter {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(45,80,22,0.8);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* 5. Authors Section */
+        .authors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .author-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(45,80,22,0.1);
+            transition: transform 0.3s;
+        }
+
+        .author-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .author-card img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 4px solid #6b9d3e;
+        }
+
+        .author-card h3 {
+            color: #2d5016;
+            margin-bottom: 0.5rem;
+        }
+
+        .author-card p {
+            color: #4a7c2c;
+            line-height: 1.6;
+        }
+
+        /* 6. Process Section with Mixed Content */
+        .process-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .process-block {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            align-items: flex-start;
+        }
+
+        .process-block:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .process-block img {
+            width: 350px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(45,80,22,0.2);
+        }
+
+        .process-text {
+            flex: 1;
+        }
+
+        .process-text h3 {
+            color: #2d5016;
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .process-text p {
+            line-height: 1.8;
+            color: #4a7c2c;
+            margin-bottom: 1rem;
+        }
+
+        /* 7. Acknowledgements Section */
+        .acknowledgements-content {
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+            color: #4a7c2c;
+        }
+
+        .acknowledgements-content h3 {
+            color: #2d5016;
+            margin-bottom: 1rem;
+            margin-top: 2rem;
+        }
+
+        .acknowledgements-content h3:first-child {
+            margin-top: 0;
+        }
+
+        .acknowledgements-content p {
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c2c 100%);
+            color: white;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .footer-section p {
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                gap: 0.8rem;
+                font-size: 0.85rem;
+            }
+
+            h1 {
+                font-size: 1.3rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .info-block, .process-block {
+                flex-direction: column !important;
+            }
+
+            .info-block img, .process-block img {
+                width: 100%;
+            }
+
+            .authors-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>🌿 El Yunque y la Torre Yokahú: Una Presentación</h1>
+            <nav>
+                <a onclick="scrollToSection('video')">Video</a>
+                <a onclick="scrollToSection('comments')">Comentarios</a>
+                <a onclick="scrollToSection('information')">Información</a>
+                <a onclick="scrollToSection('gallery')">Galería</a>
+                <a onclick="scrollToSection('authors')">Autores</a>
+                <a onclick="scrollToSection('process')">Proceso</a>
+                <a onclick="scrollToSection('acknowledgements')">Agradecimientos</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 1. Video Section -->
+    <section id="video">
+        <h2 class="section-title">Video</h2>
+        <div class="video-container">
+            <!-- EDITAR AQUÍ: Reemplaza con el código de tu video -->
+            <!-- Ejemplo para YouTube: <iframe src="https://www.youtube.com/embed/TU_ID_DE_VIDEO" allowfullscreen></iframe> -->
+                <iframe width="420" height="315"
+                    src="https://www.youtube.com/watch?v=5L_xUnPkQxI">
+                </iframe>
+            <div class="video-placeholder">📹 Agrega tu video de la presentación aquí</div>
+        </div>
+    </section>
+
+    <!-- 2. Comments Section -->
+    <section id="comments">
+        <h2 class="section-title">Comparte tus Comentarios</h2>
+        <div class="comments-section">
+            <div class="comment-input">
+                <input type="text" id="commentName" placeholder="Tu nombre (opcional)">
+                <textarea id="commentText" placeholder="¿Qué te pareció nuestra presentación?"></textarea>
+                <button onclick="addComment()">Publicar Comentario</button>
+            </div>
+            <div class="comments-list" id="commentsList"></div>
+        </div>
+    </section>
+
+    <!-- 3. Information Section -->
+    <section id="information">
+        <h2 class="section-title">Sobre El Yunque y la Torre Yokahú</h2>
+        <div class="info-content">
+            <!-- EDITAR AQUÍ: Reemplaza las imágenes y el texto -->
+            <div class="info-block">
+                <img src="yunque1.jpg" alt="Bosque Nacional El Yunque">
+                <div class="info-text">
+                    <h3>Bosque Nacional El Yunque</h3>
+                    <ul>
+                        <li>El único bosque tropical lluvioso en el Sistema de Bosques Nacionales de EE.UU.</li>
+                        <li>Ubicado en el noreste de Puerto Rico</li>
+                        <li>Cubre aproximadamente 28,000 acres</li>
+                        <li>Recibe más de 240 pulgadas de lluvia anualmente</li>
+                        <li>Hogar de cientos de especies de plantas y animales</li>
+                        <li>Nombrado en honor al espíritu taíno "Yukiyú"</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="info-block">
+                <img src="yokahu1.jpg" alt="Torre Yokahú">
+                <div class="info-text">
+                    <h3>Torre Yokahú</h3>
+                    <ul>
+                        <li>Construida en 1963 como torre de observación</li>
+                        <li>Se encuentra a 1,575 pies sobre el nivel del mar</li>
+                        <li>Hecha de piedra con un diseño distintivo</li>
+                        <li>Ofrece vistas panorámicas del dosel del bosque</li>
+                        <li>Nombrada en honor al dios taíno Yokahú</li>
+                        <li>Símbolo icónico del Bosque Nacional El Yunque</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Slideshow/Gallery Section -->
+    <section id="gallery">
+        <h2 class="section-title">Galería de Fotos</h2>
+        <div class="slideshow">
+            <!-- EDITAR AQUÍ: Reemplaza con tus imágenes (slideshow1.jpg, slideshow2.jpg, etc.) -->
+            <img src="slideshow1.jpg" alt="Imagen de galería 1" class="active">
+            <img src="slideshow2.jpg" alt="Imagen de galería 2">
+            <img src="slideshow3.jpg" alt="Imagen de galería 3">
+            <img src="slideshow4.jpg" alt="Imagen de galería 4">
+            <img src="slideshow5.jpg" alt="Imagen de galería 5">
+            <button class="slideshow-btn prev" onclick="changeSlide(-1)">❮</button>
+            <button class="slideshow-btn next" onclick="changeSlide(1)">❯</button>
+            <div class="slide-counter"><span id="currentSlide">1</span> / <span id="totalSlides">5</span></div>
+        </div>
+    </section>
+
+    <!-- 5. Authors Section -->
+    <section id="authors">
+        <h2 class="section-title">El Equipo</h2>
+        <div class="authors-grid">
+            <!-- EDITAR AQUÍ: Reemplaza las imágenes (author1.jpg, author2.jpg, etc.) y el texto -->
+            <div class="author-card">
+                <img src="author1.jpg" alt="Autor 1">
+                <h3>Cristemil Humberto Rosa Ramírez </h3>
+                <p>Trabajó en el desarrollo principal del sitio web y en la mayor parte del proceso de grabación y documentación.</p>
+            </div>
+            <div class="author-card">
+                <img src="author2.jpg" alt="Autor 2">
+                <h3>Gustavo Quiñones Blanco</h3>
+                <p>Trabajó en la animación principal, parte de la grabación y documentación.</p>
+            </div>
+            <div class="author-card">
+                <img src="author3.jpg" alt="Autor 3">
+                <h3>Benjamín O. Betancourt Singh</h3>
+                <p>Trabajó en el desarrollo del sitio web y mano a mano en la informatica y formación del guion.</p>
+            </div>
+            <div class="author-card">
+                <img src="author4.jpg" alt="Autor 4">
+                <h3>Gabriel Pagán Ocasio</h3>
+                <p>Trabajó en el desarrollo principal de la información en el sitio web y tomó parte en la documentación.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Process Section -->
+    <section id="process">
+        <h2 class="section-title">Nuestro Proceso Creativo</h2>
+        <div class="process-content">
+            <!-- EDITAR AQUÍ: Reemplaza las imágenes (process1.jpg, process2.jpg, etc.) y el texto -->
+            <div class="process-block">
+                <img src="process1.jpg" alt="Fase de investigación">
+                <div class="process-text">
+                    <h3>Investigación e Inspiración</h3>
+                    <p>Nuestro viaje comenzó con una extensa investigación sobre el Bosque Nacional El Yunque y la histórica Torre Yokahú. Estudiamos la cultura taína, el ecosistema único del bosque tropical y la importancia de esta maravilla natural para Puerto Rico.</p>
+                    <p>Visitamos el bosque, entrevistamos guardabosques y nos sumergimos en los sonidos, vistas e historias de este lugar mágico.</p>
+                </div>
+            </div>
+
+            <div class="process-block">
+                <img src="process2.jpg" alt="Desarrollo del guión">
+                <div class="process-text">
+                    <h3>Desarrollo del Guión y Coreografía</h3>
+                    <p>Creamos una narrativa que entrelaza hechos históricos, temas ambientales y la conexión espiritual entre el pueblo taíno y la tierra. La coreografía fue diseñada para imitar los movimientos del bosque tropical - fluyendo como el agua, balanceándose como árboles en el viento.</p>
+                    <p>Numerosos ensayos nos ayudaron a refinar nuestros movimientos y coordinación para crear una presentación cohesiva.</p>
+                </div>
+            </div>
+
+            <div class="process-block">
+                <img src="process3.jpg" alt="Diseño de escenografía y vestuario">
+                <div class="process-text">
+                    <h3>Diseño de Escenografía y Vestuario</h3>
+                    <p>Nuestro diseño de escenografía buscó transportar a la audiencia al corazón de El Yunque. Incorporamos elementos naturales, imágenes proyectadas y representaciones simbólicas de la Torre Yokahú. Los vestuarios se inspiraron en los colores vibrantes de la flora y fauna tropical.</p>
+                    <p>Cada detalle fue cuidadosamente considerado para crear una experiencia inmersiva.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. Acknowledgements Section -->
+    <section id="acknowledgements">
+        <h2 class="section-title">Agradecimientos</h2>
+        <div class="acknowledgements-content">
+            <!-- EDITAR AQUÍ: Reemplaza con tus agradecimientos -->
+            <p>Nos encantaría reconocer a los siguientes individuos, grupos, e instituciones con gratitud y sinceridad por su apoyo, que, sin ellos, este proyecta sería inexistente:</p>
+
+            <h3>Nuestros Maestros</h3>
+            <p>A los todos los maestros de undécimos Betances y Roqué de Duprey, le quisiéramos agradecer su apoyo, ayuda, recursos, tiempo y sacrificios para hacer la obra y sitio web posible, estos siendo nuestra maestra de Historia, Alexandra Delgado Morales; nuestra maestra de Bellas Artes, Luz de León; nuestra maestra de Pre-Álgebra, Yasmín Fonseca; nuestra maestra de Inglés Conversacional, Jessenia Rivera; nuestra maestra de Español, Lilliana Pérez; nuestra maestra de Literatura Estadounidense, Heldys Pabón; nuestra maestra de Ciencias Ambientales, Angélica Estrada; nuestro maestro de Microbiología, Víctor Crespo; nuestro maestro de Empresarismo, Daniel Melo; y nuestro maestro de Ingeniería, Steeven Petit.</p>
+
+            <h3>Mural</h3>
+            <p>Amalia Vargas, Diego Cortés, Yahbzael Sierra, Ares Sepúlveda, Dylan Calderón y Leonardo Crispín.</p>
+
+            <h3>Representación Artística</h3>
+            <p>Adrián Rodríguez, Elliot Rodríguez, Félix Vega, Gabriel González, Sebastián Pérez, Lluvia Cuadrado, Derek Cañuelas, Derek Rosado, Ariana Esquilín, Camilo Montijo, José Nieves, Nathiany Hernández, Javier Hernández, Ariana Andino, Gia Luppino, Amanda Delbrey, Fabiola Martínez, Haniel Velázquez, Joirilys Avilés, Misael Villaveitía y Ricardo Lozada.</p>
+
+            <h3>Sitio Web y Video</h3>
+            <p>Cristemil Rosa, Benjamín Betancourt, Gabriel Pagán, Gustavo Quiñones y Lluvia Cuadrado, que aportó al subir al Yunque en reemplazo de Benjamín Betancourt.</p>
+            
+            <h3>Agradecimientos Especiales</h3>
+            <p>Quisiéramos dar un agradecimiento especial a los padres de los estudiantes de undécimo Betances y Roqué de Duprey por su ayuda y sacrificios de tiempo y recursos para la creación y desarrollo de este sitio web y la obra.</p>
+
+            <h3>Facultad</h3>
+            <p>Últimamente, de parte de todo undécimo grado, quisiéramos profundamente agradecer al director escolar Ivangs Rivera y la entera facultad de EMCT por hacer posible que se pueda realizar este evento.</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <!-- EDITAR AQUÍ: Reemplaza con tu información -->
+            <div class="footer-section">
+                <p><strong>Grado y Clase</strong><br>
+                11mo - Roqué de Duprey y Betances<br>
+                2025</p>
+            </div>
+            <div class="footer-section">
+                <p><strong>Escuela Alianza Especializada en Matemáticas, Ciencias y Tecnología de San Juan (EMCT)</strong><br>
+                San Juan, Puerto Rico<br>
+                Semana de la Puertorriqueñidad y las Artes 2025</p>
+            </div>
+            <div class="footer-section">
+                <p><strong>Contacto</strong><br>
+                cristemil.rosa@sjmathsciencetechnology.org<br>
+                © 2025 Todos los Derechos Reservados</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll function
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Comments functionality with storage
+        let comments = [];
+
+        async function loadComments() {
+            try {
+                const result = await window.storage.get('performance-comments', true);
+                if (result && result.value) {
+                    comments = JSON.parse(result.value);
+                    renderComments();
+                }
+            } catch (error) {
+                console.log('No existing comments or error loading:', error);
+            }
+        }
+
+        async function saveComments() {
+            try {
+                await window.storage.set('performance-comments', JSON.stringify(comments), true);
+            } catch (error) {
+                console.error('Error saving comments:', error);
+            }
+        }
+
+        function addComment() {
+            const name = document.getElementById('commentName').value.trim() || 'Anonymous';
+            const text = document.getElementById('commentText').value.trim();
+            if (!text) return;
+
+            const comment = {
+                id: Date.now(),
+                author: name,
+                text: text,
+                date: new Date().toLocaleDateString(),
+                likes: 0,
+                liked: false,
+                replies: [],
+                showReplyInput: false
+            };
+
+            comments.unshift(comment);
+            document.getElementById('commentName').value = '';
+            document.getElementById('commentText').value = '';
+            renderComments();
+            saveComments();
+        }
+
+        function likeComment(id) {
+            const comment = comments.find(c => c.id === id);
+            if (comment) {
+                comment.liked = !comment.liked;
+                comment.likes += comment.liked ? 1 : -1;
+                renderComments();
+                saveComments();
+            }
+        }
+
+        function toggleReplyInput(id) {
+            const comment = comments.find(c => c.id === id);
+            if (comment) {
+                comment.showReplyInput = !comment.showReplyInput;
+                renderComments();
+            }
+        }
+
+        function addReply(id) {
+            const input = document.getElementById(`reply-input-${id}`);
+            const replyText = input.value.trim();
+            if (!replyText) return;
+
+            const comment = comments.find(c => c.id === id);
+            if (comment) {
+                comment.replies.push({
+                    author: 'Anonymous',
+                    text: replyText,
+                    date: new Date().toLocaleDateString()
+                });
+                comment.showReplyInput = false;
+                renderComments();
+                saveComments();
+            }
+        }
+
+        function renderComments() {
+            const list = document.getElementById('commentsList');
+            if (comments.length === 0) {
+                list.innerHTML = '<p style="text-align: center; color: #6b9d3e; padding: 2rem;">No comments yet. Be the first to share your thoughts!</p>';
+                return;
+            }
+
+            list.innerHTML = comments.map(comment => `
+                <div class="comment">
+                    <div class="comment-header">
+                        <span class="comment-author">${comment.author}</span>
+                        <span class="comment-date">${comment.date}</span>
+                    </div>
+                    <div class="comment-text">${comment.text}</div>
+                    <div class="comment-actions">
+                        <button class="like-btn ${comment.liked ? 'liked' : ''}" onclick="likeComment(${comment.id})">
+                            ${comment.liked ? '❤️' : '🤍'} ${comment.likes}
+                        </button>
+                        <button class="reply-btn" onclick="toggleReplyInput(${comment.id})">
+                            💬 Reply
+                        </button>
+                    </div>
+                    ${comment.showReplyInput ? `
+                        <div class="reply-input">
+                            <input type="text" id="reply-input-${comment.id}" placeholder="Write a reply...">
+                            <button onclick="addReply(${comment.id})">Send</button>
+                        </div>
+                    ` : ''}
+                    ${comment.replies.length > 0 ? `
+                        <div class="replies">
+                            ${comment.replies.map(reply => `
+                                <div class="reply">
+                                    <div class="comment-header">
+                                        <span class="comment-author">${reply.author}</span>
+                                        <span class="comment-date">${reply.date}</span>
+                                    </div>
+                                    <div class="comment-text">${reply.text}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        // Slideshow functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slideshow img');
+        const totalSlides = slides.length;
+
+        function updateSlideCounter() {
+            document.getElementById('currentSlide').textContent = currentSlide + 1;
+            document.getElementById('totalSlides').textContent = totalSlides;
+        }
+
+        function changeSlide(direction) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + direction + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+            updateSlideCounter();
+        }
+
+        // Initialize
+        updateSlideCounter();
+        loadComments();
+
+        // Auto-advance slideshow every 5 seconds
+        setInterval(() => changeSlide(1), 5000);
+    </script>
+</body>
+</html>
